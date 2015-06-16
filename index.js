@@ -57,8 +57,9 @@ Sheut.prototype = {
         var testServer = this._serve(this.config.server);
 
         console.log(this.configPath);
-
-        return nodeCasper([path.join(__dirname,'casper.js'), '--configPath=' + this.configPath]).then(function closeServer() {
+var cmd = [path.join(__dirname,'casper.js'), '--configPath=' + this.configPath]
+        console.log(cmd.join(' '));
+        return nodeCasper(cmd).then(function closeServer() {
             if (testServer) {
                 testServer.close();
             }
@@ -79,7 +80,7 @@ Sheut.prototype = {
 
     compare: function compare() {
         var that = this;
-
+console.log(this.paths.reference)
         return this._filterFiles(this.paths.reference).then(function(files) {
 
             if (!files.validFiles.length) {
@@ -120,7 +121,7 @@ Sheut.prototype = {
 
     _filterFiles: function _filterFiles(dir) {
         var that = this;
-
+        console.log('_filterFiles',dir)
         return new Promise(function(resolve, reject) {
             fs.readdir(dir, function (err, files) {
 
@@ -132,7 +133,7 @@ Sheut.prototype = {
                 var newFile;
 
                 files.forEach(function(fileName) {
-
+console.log(fileName)
                     if(fileName.match(/\.DS*/) || fileName === '.gitkeep') {
                         return;
                     }
