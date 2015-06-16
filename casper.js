@@ -32,7 +32,9 @@ if (config.debug) {
 }
 
 casper.start().each(urls, function(self, link) {
+    console.log('casper: ', link);
     var site = sites[link];
+    console.log('casper: ', site);
     var viewports = config.viewports;
 
     if (site.ignoredViewports) {
@@ -42,12 +44,13 @@ casper.start().each(urls, function(self, link) {
     }
 
     self.each(viewports, function(self, viewport){
-
+console.log('viewport: ', viewport);
         this.then(function() {
             this.viewport(viewport.width, viewport.height);
         });
 
         this.thenOpen(link, function() {
+            console.log('thenOpen: ', link);
 
             this.waitForSelector(config.waitForSelector || 'html', function() {
                 this.then(function(){
@@ -87,6 +90,8 @@ casper.start().each(urls, function(self, link) {
 });
 
 casper.on('capture.saved', function(err) {
+    console.log('capture.saved')
+    console.log(imageToCapture, lastImageToCapture)
     if (imageToCapture === lastImageToCapture){
         this.exit();
     }
